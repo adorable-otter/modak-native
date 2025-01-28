@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import Push from "./components/push";
 
 export default function Index() {
   return (
@@ -10,6 +11,7 @@ export default function Index() {
       }}
     >
       <Text>Home</Text>
+      <Push/>
     </View>
   );
 }
