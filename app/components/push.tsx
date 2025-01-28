@@ -4,6 +4,8 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 
+const accessToken = process.env.EXPO_PUBLIC_ACCESS_TOKEN;
+
 // https://docs.expo.dev/versions/latest/sdk/notifications/
 
 // Notifications
@@ -29,22 +31,25 @@ async function sendPushNotification(expoPushToken: string) {
     to: expoPushToken,
     sound: "default",
     title: "Original Title",
-    body: "And here is the body!",
-    data: { someData: "goes here" },
+    body: "And here is the body!"
   };
 
   //Instead of using one of the libraries listed earlier,
   //you may want to send requests directly to our HTTP/2 API (this API currently does not require any authentication).
   //To do so, send a POST request to https://exp.host/--/api/v2/push/send with the following HTTP headers:
-  await fetch("https://exp.host/--/api/v2/push/send", {
+  const response = await fetch("https://exp.host/--/api/v2/push/send", {
     method: "POST",
     headers: {
       Accept: "application/json",
-      "Accept-encoding": "gzip, deflate",
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(message),
   });
+  if (!response.ok) {
+    // Log the error if the response is not successful
+    const errorData = await response.json();
+    console.error("Error sending notification:", errorData);
+  }
 }
 
 function handleRegistrationError(errorMessage: string) {
