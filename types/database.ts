@@ -130,6 +130,7 @@ export type Database = {
           id: string;
           is_approved: boolean;
           is_leader: boolean;
+          receive_notifications: boolean;
           user_id: string;
         };
         Insert: {
@@ -138,6 +139,7 @@ export type Database = {
           id?: string;
           is_approved?: boolean;
           is_leader?: boolean;
+          receive_notifications?: boolean;
           user_id: string;
         };
         Update: {
@@ -146,6 +148,7 @@ export type Database = {
           id?: string;
           is_approved?: boolean;
           is_leader?: boolean;
+          receive_notifications?: boolean;
           user_id?: string;
         };
         Relationships: [
@@ -195,6 +198,8 @@ export type Database = {
           created_at: string;
           id: string;
           message: string;
+          read_by: string[] | null;
+          unread_count: number;
           user_id: string;
         };
         Insert: {
@@ -202,6 +207,8 @@ export type Database = {
           created_at?: string;
           id?: string;
           message?: string;
+          read_by?: string[] | null;
+          unread_count?: number;
           user_id?: string;
         };
         Update: {
@@ -209,6 +216,8 @@ export type Database = {
           created_at?: string;
           id?: string;
           message?: string;
+          read_by?: string[] | null;
+          unread_count?: number;
           user_id?: string;
         };
         Relationships: [
@@ -311,6 +320,7 @@ export type Database = {
           created_at: string;
           group_id: string;
           id: string;
+          is_read: boolean;
           target_user_id: string;
           type: string;
         };
@@ -318,6 +328,7 @@ export type Database = {
           created_at?: string;
           group_id?: string;
           id?: string;
+          is_read?: boolean;
           target_user_id: string;
           type: string;
         };
@@ -325,6 +336,7 @@ export type Database = {
           created_at?: string;
           group_id?: string;
           id?: string;
+          is_read?: boolean;
           target_user_id?: string;
           type?: string;
         };
