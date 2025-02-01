@@ -19,8 +19,23 @@ const supabase = createClient(
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 )
 
+const TABLEBYTYPE = {
+  group_members_new: 'group_members',
+  schedules_new: 'schedules'
+}
+
 Deno.serve(async (req) => {
-  const payload: WebhookPayload = await req.json()
+  const payload: WebhookPayload = await req.json();
+  const { data:groupMembersData } = await supabase
+    .from('group_members')
+    .select()
+    .eq('group_id', payload.record.group_id)
+    .eq('user_id', payload.record.target_user_id)
+    .single();
+
+  //알림 설정이 꺼져있으면 early return한다
+  if(!groupMembersData?.receive_notifications) return;
+  
   const { data } = await supabase
     .from('users')
     .select('push_token')
@@ -33,10 +48,36 @@ Deno.serve(async (req) => {
     .eq('id', payload.record.group_id)
     .single();
 
-  const messages = {
-    'group_members_new':`${groupData?.name}에 새로운 멤버가 들어왔습니다`,
-    'schedules_new':`${groupData?.name}에 새로운 일정이 등록되었습니다`
+  const { data:triggeredRow } = await supabase
+    .from(TABLEBYTYPE[payload.record.type])
+    .select()
+    .eq('id', payload.record.triggered_row_id)
+    .single();
+
+  //알림 타입에 따라 메세지 설정하기
+  const message = {
+    title: '',
+    body: '',
   }
+
+  if(payload.record.type === 'group_members_new') {
+    const { data:newMemberData } = await supabase
+      .from('users')
+      .select('nickname')
+      .eq('id', triggeredRow?.user_id)
+      .single();
+
+      message.title = '새로운 멤버가 들어왔어요';
+      message.body = `${groupData?.name}에 '${newMemberData?.nickname}'님이 멤버가 되었어요`;
+  }
+
+  if(payload.record.type === 'schedules_new'){
+    message.title = '일정이 등록되었어요';
+    message.body = `${groupData?.name}에 '${triggeredRow?.name}'일정이 생겼어요`
+  }
+
+  //알림 보내기
+  const {title:notificationTitle, body:notificationBody} = message;
 
   const res = await fetch('https://exp.host/--/api/v2/push/send', {
     method: 'POST',
@@ -47,7 +88,8 @@ Deno.serve(async (req) => {
     body: JSON.stringify({
       to: data?.push_token,
       sound: 'default',
-      body: messages[payload.record.type],
+      title: notificationTitle,
+      body: notificationBody,
     }),
   }).then((res) => res.json())
 
