@@ -1,9 +1,38 @@
 import { GoogleLogo, KakaoLogo } from '@/src/components/common/icons/logo';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { supabase } from '@/src/utils/supabase/client';
 
 const SocialLogins = () => {
   const onGooglePress = async () => {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+    });
 
+    try {
+      const hasService = await GoogleSignin.hasPlayServices();
+      if (!hasService) throw new Error('need google service');
+      const userInfo = await GoogleSignin.signIn();
+      if (userInfo?.data?.idToken) {
+        const { data, error } = await supabase.auth.signInWithIdToken({
+          provider: 'google',
+          token: userInfo.data.idToken,
+        });
+        if (error) new Error('login fail');
+      } else {
+        throw new Error('no ID token present!');
+      }
+    } catch (error: any) {
+      // user cancelled the login flow
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // play services not available or outdated
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      } else {
+      }
+    }
   };
 
   return (
