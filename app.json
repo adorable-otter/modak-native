@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "모닥모닥",
-    "slug": "modak-native",
+    "slug": "모닥모닥",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
@@ -16,7 +16,8 @@
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.modak.modaknative"
+      "package": "com.modak.modaknative",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "777479462731",
+    "project_id": "modak-native-da5a1",
+    "storage_bucket": "modak-native-da5a1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777479462731:android:e6a0fc50a5502a897592ce",
+        "android_client_info": {
+          "package_name": "com.modak.modaknative"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClSB8sxGj3PZN-7tPi9h0cA3XqjfriQEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

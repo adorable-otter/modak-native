@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { supabase } from '@/src/utils/supabase/client';
 import { useRouter } from 'expo-router';
+import { upsertPushToken } from '@/src/queries/user';
 
 const SocialLogins = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const SocialLogins = () => {
           token: userInfo.data.idToken,
         });
         if (error) new Error('login fail');
+        await upsertPushToken(data.user);
         router.replace('/');
       } else {
         throw new Error('no ID token present!');
