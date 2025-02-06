@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "모닥모닥",
-    "slug": "모닥모닥",
+    "slug": "modak-modak",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
@@ -9,12 +9,14 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.modak.modaknative"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "resizeMode": "contain"
       },
       "package": "com.modak.modaknative",
       "googleServicesFile": "./google-services.json"
@@ -30,7 +32,7 @@
         "expo-splash-screen",
         {
           "image": "./src/assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "imageWidth": 180,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }

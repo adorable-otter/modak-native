@@ -21,13 +21,16 @@ export default function RootLayout() {
       // hide splash screen
       await SplashScreen.hideAsync();
     };
-    setPushNotificationOptions();
     prepare();
+    setPushNotificationOptions();
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack />
+      <Stack>
+        <Stack.Screen name='index' options={{ headerShown: false }} />
+        <Stack.Screen name='login/index' options={{ headerShown: false }} />
+      </Stack>
     </QueryClientProvider>
   );
 }
