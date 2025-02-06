@@ -2,8 +2,11 @@ import { GoogleLogo, KakaoLogo } from '@/src/components/common/icons/logo';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { supabase } from '@/src/utils/supabase/client';
+import { useRouter } from 'expo-router';
 
 const SocialLogins = () => {
+  const router = useRouter();
+
   const onGooglePress = async () => {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
@@ -20,6 +23,7 @@ const SocialLogins = () => {
           token: userInfo.data.idToken,
         });
         if (error) new Error('login fail');
+        router.replace('/');
       } else {
         throw new Error('no ID token present!');
       }
