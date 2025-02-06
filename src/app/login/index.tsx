@@ -41,7 +41,7 @@ const LoginPage = () => {
   };
 
   return (
-    <View className="flex-1 pb-[112px] pt-[119px] justify-center ">
+    <View className="flex-1 pb-[112px] pt-[119px] justify-center bg-[#fff]">
       <View className="items-center justify-center mb-[114px]">
         <FlatList
           data={onBoardingItems}
